@@ -8,6 +8,7 @@ import {
 import {
   all,
   call,
+  debounce,
   put,
   select,
   takeLatest,
@@ -891,8 +892,8 @@ export default function* gitSyncSagas() {
       ReduxActionTypes.UPDATE_LOCAL_GIT_CONFIG_INIT,
       updateLocalGitConfig,
     ),
-    throttle(
-      5 * 1000,
+    debounce(
+      5 * 100,
       ReduxActionTypes.FETCH_GIT_STATUS_INIT,
       fetchGitStatusSaga,
     ),
