@@ -201,8 +201,9 @@ describe("Git discard changes:", function() {
     cy.get(`.t--entity-name:contains(${jsObject})`).should("not.exist");
     // discard changes
     cy.gitDiscardChanges();
+    cy.wait(3000);
     //verify JSObject is recovered
-    cy.get(`.t--entity-name:contains(${jsObject})`).should("be.visible");
+    cy.get(`.t--entity-name:contains(${jsObject})`).should("exist");
     cy.get(".bp3-input").should("have.value", "Success");
   });
 
@@ -219,10 +220,9 @@ describe("Git discard changes:", function() {
     cy.get(`.t--entity-name:contains("${page3}")`).should("not.exist");
   });
 
-  it("8. Add new page i.e page3, discard changes should give error resource not found", () => {
+  it(`8. Add new page i.e page3, discard changes should not throw error: "resource not found"`, () => {
     cy.Createpage(page3);
-    cy.gitDiscardChanges(false);
-    cy.go("back");
-    cy.reload();
+    cy.gitDiscardChanges();
+    cy.get(`.t--entity-name:contains("${page3}")`).should("not.exist");
   });
 });
