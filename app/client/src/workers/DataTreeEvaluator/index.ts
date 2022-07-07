@@ -365,10 +365,6 @@ export default class DataTreeEvaluator {
     );
     const lintStop = performance.now();
 
-    const evalTreeDiffsStart = performance.now();
-
-    const evalTreeDiffsStop = performance.now();
-
     const totalEnd = performance.now();
     // TODO: For some reason we are passing some reference which are getting mutated.
     // Need to check why big api responses are getting split between two eval runs
@@ -377,7 +373,6 @@ export default class DataTreeEvaluator {
     const timeTakenForSubTreeEval = {
       total: (totalEnd - totalStart).toFixed(2),
       findDifferences: (diffCheckTimeStop - diffCheckTimeStart).toFixed(2),
-      findEvalDifferences: (evalTreeDiffsStop - evalTreeDiffsStart).toFixed(2),
       updateDependencies: (
         updateDependenciesStop - updateDependenciesStart
       ).toFixed(2),
