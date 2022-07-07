@@ -166,6 +166,16 @@ export default class DataTreeEvaluator {
     const validateEnd = performance.now();
 
     this.oldUnEvalTree = klona(localUnEvalTree);
+    // Lint
+    const lintStart = performance.now();
+    lintTree(
+      this.oldUnEvalTree,
+      this.evalTree,
+      this.sortedDependencies,
+      [],
+      this.resolvedFunctions,
+    );
+    const lintStop = performance.now();
     const totalEnd = performance.now();
     const timeTakenForFirstTree = {
       total: (totalEnd - totalStart).toFixed(2),
@@ -185,6 +195,7 @@ export default class DataTreeEvaluator {
         inverseMap: JSON.parse(JSON.stringify(this.inverseDependencyMap)),
         sortedList: JSON.parse(JSON.stringify(this.sortedDependencies)),
       },
+      lint: (lintStop - lintStart).toFixed(2),
     };
     this.logs.push({ timeTakenForFirstTree });
     return { evalTree: this.evalTree, jsUpdates: jsUpdates, evalMetaUpdates };
