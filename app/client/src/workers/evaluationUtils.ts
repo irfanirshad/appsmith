@@ -7,6 +7,7 @@ import {
   isChildPropertyPath,
   isDynamicValue,
   PropertyEvaluationErrorType,
+  isPathADynamicTrigger,
 } from "utils/DynamicBindingUtils";
 import { validate } from "./validations";
 import { Diff } from "deep-diff";
@@ -638,9 +639,11 @@ export function getSafeToRenderDataTree(
 export const addErrorToEntityProperty = (
   errors: EvaluationError[],
   dataTree: DataTree,
-  path: string,
+  fullPropertyPath: string,
 ) => {
-  const { entityName, propertyPath } = getEntityNameAndPropertyPath(path);
+  const { entityName, propertyPath } = getEntityNameAndPropertyPath(
+    fullPropertyPath,
+  );
   const isPrivateEntityPath = getAllPrivateWidgetsInDataTree(dataTree)[
     entityName
   ];
@@ -662,9 +665,11 @@ export const addErrorToEntityProperty = (
 
 export const removeLintErrorsFromEntityProperty = (
   dataTree: DataTree,
-  path: string,
+  fullPropertypath: string,
 ) => {
-  const { entityName, propertyPath } = getEntityNameAndPropertyPath(path);
+  const { entityName, propertyPath } = getEntityNameAndPropertyPath(
+    fullPropertypath,
+  );
   if (propertyPath) {
     const existingNonLintErrors = (_.get(
       dataTree,
@@ -849,4 +854,11 @@ export const overrideWidgetProperties = (params: {
       }
     }
   }
+};
+
+export const isATriggerPath = (
+  entity: DataTreeEntity,
+  propertyPath: string,
+) => {
+  return isWidget(entity) && isPathADynamicTrigger(entity, propertyPath);
 };
