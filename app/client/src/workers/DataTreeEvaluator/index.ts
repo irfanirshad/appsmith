@@ -80,8 +80,8 @@ import {
   getUpdatedLocalUnEvalTreeAfterJSUpdates,
   parseJSActions,
 } from "workers/JSObject";
-
 import { lintTree } from "workers/Linting";
+
 export default class DataTreeEvaluator {
   dependencyMap: DependencyMap = {};
   sortedDependencies: Array<string> = [];
