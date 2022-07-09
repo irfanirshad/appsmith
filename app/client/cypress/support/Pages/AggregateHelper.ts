@@ -336,8 +336,8 @@ export class AggregateHelper {
     //     .click()
   }
 
-  public Escape(){
-    cy.get('body').type("{esc}");
+  public Escape() {
+    cy.get("body").type("{esc}");
   }
 
   public RemoveMultiSelectItems(items: string[]) {
@@ -377,12 +377,11 @@ export class AggregateHelper {
       cy.xpath(this.locator._actionTextArea(actionName))
         .first()
         .then((el: any) => {
-          const input = cy.get(el);
           if (paste) {
             //input.invoke("val", value);
             this.Paste(el, value);
           } else {
-            input.type(value, {
+            cy.get(el).type(value, {
               parseSpecialCharSequences: false,
             });
           }

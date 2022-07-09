@@ -1,8 +1,8 @@
 import DataTreeEvaluator from "../DataTreeEvaluator";
 import {
   asyncTagUnevalTree,
+  lintingUnEvalTree,
   unEvalTree,
-  unEvalTree2,
 } from "./mockData/mockUnEvalTree";
 import { DataTree } from "entities/DataTree/dataTreeFactory";
 import { DataTreeDiff } from "workers/evaluationUtils";
@@ -16,7 +16,6 @@ import {
   EVAL_ERROR_PATH,
   PropertyEvaluationErrorType,
 } from "utils/DynamicBindingUtils";
-
 const widgetConfigMap = {};
 ALL_WIDGETS_AND_CONFIG.map(([, config]) => {
   // @ts-expect-error: Types are not available
@@ -386,7 +385,7 @@ describe("DataTreeEvaluator", () => {
   describe("triggerfield dependency map", () => {
     beforeEach(() => {
       // @ts-expect-error: Types are not available
-      dataTreeEvaluator.createFirstTree(unEvalTree2 as DataTree);
+      dataTreeEvaluator.createFirstTree(lintingUnEvalTree as DataTree);
     });
     it("Creates correct triggerFieldDependencyMap", () => {
       expect(dataTreeEvaluator.triggerFieldDependencyMap).toEqual({
@@ -402,7 +401,7 @@ describe("DataTreeEvaluator", () => {
       });
     });
     it("Correctly updates triggerFieldDependencyMap and triggerFieldInverseDependencyMap", () => {
-      const newUnEvalTree = ({ ...unEvalTree2 } as unknown) as DataTree;
+      const newUnEvalTree = ({ ...lintingUnEvalTree } as unknown) as DataTree;
       // delete Api2
       delete newUnEvalTree["Api2"];
       dataTreeEvaluator.updateDataTree(newUnEvalTree);
@@ -417,7 +416,7 @@ describe("DataTreeEvaluator", () => {
 
       // Add Api2
       // @ts-expect-error: Types are not available
-      newUnEvalTree["Api2"] = { ...unEvalTree2 }["Api2"];
+      newUnEvalTree["Api2"] = { ...lintingUnEvalTree }["Api2"];
       dataTreeEvaluator.updateDataTree(newUnEvalTree);
       expect(dataTreeEvaluator.triggerFieldDependencyMap).toEqual({
         "Button3.onClick": ["Api1", "Button2", "Api2"],
@@ -433,9 +432,10 @@ describe("DataTreeEvaluator", () => {
   });
 
   describe("lintTree", () => {
+    const dataTreeEvaluator = new DataTreeEvaluator(widgetConfigMap);
     beforeEach(() => {
       // @ts-expect-error: Types are not available
-      dataTreeEvaluator.createFirstTree(unEvalTree2 as DataTree);
+      dataTreeEvaluator.createFirstTree(lintingUnEvalTree as DataTree);
     });
     it("Correctly lints tree", () => {
       const getLintErrorsInEntityProperty = (
