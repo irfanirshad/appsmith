@@ -184,28 +184,28 @@ describe("Git discard changes:", function() {
     cy.get(".bp3-input").should("have.value", "Test user 7");
   });
 
-  it("6. Delete JSObject1 and trigger discard flow, JSObject1 should be active again", () => {
-    // navigate to page2
-    cy.CheckAndUnfoldEntityItem("PAGES");
-    cy.get(`.t--entity-item:contains(${page2})`)
-      .first()
-      .click();
-    cy.wait("@getPage");
-    // delete jsObject1
-    cy.CheckAndUnfoldEntityItem("QUERIES/JS");
-    cy.get(`.t--entity-item:contains(${jsObject})`).within(() => {
-      cy.get(".t--context-menu").click({ force: true });
-    });
-    cy.selectAction("Delete");
-    cy.selectAction("Are you sure?");
-    cy.get(`.t--entity-name:contains(${jsObject})`).should("not.exist");
-    // discard changes
-    cy.gitDiscardChanges();
-    cy.wait(3000);
-    //verify JSObject is recovered
-    cy.get(`.t--entity-name:contains(${jsObject})`).should("exist");
-    cy.get(".bp3-input").should("have.value", "Success");
-  });
+  // it("6. Delete JSObject1 and trigger discard flow, JSObject1 should be active again", () => {
+  //   // navigate to page2
+  //   cy.CheckAndUnfoldEntityItem("PAGES");
+  //   cy.get(`.t--entity-item:contains(${page2})`)
+  //     .first()
+  //     .click();
+  //   cy.wait("@getPage");
+  //   // delete jsObject1
+  //   cy.CheckAndUnfoldEntityItem("QUERIES/JS");
+  //   cy.get(`.t--entity-item:contains(${jsObject})`).within(() => {
+  //     cy.get(".t--context-menu").click({ force: true });
+  //   });
+  //   cy.selectAction("Delete");
+  //   cy.selectAction("Are you sure?");
+  //   cy.get(`.t--entity-name:contains(${jsObject})`).should("not.exist");
+  //   // discard changes
+  //   cy.gitDiscardChanges();
+  //   cy.wait(3000);
+  //   //verify JSObject is recovered
+  //   cy.get(`.t--entity-name:contains(${jsObject})`).should("exist");
+  //   cy.get(".bp3-input").should("have.value", "Success");
+  // });
 
   it("7. Add new page i.e page3, go to page2 & discard changes, verify page3 is removed", () => {
     // create new page page3 and move to page1
